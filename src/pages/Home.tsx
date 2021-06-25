@@ -4,16 +4,18 @@ import { FormEvent, useState } from 'react';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
+import { database } from '../services/firebase';
 
 import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../hooks/useTheme';
 
 import '../styles/auth.scss';
-import { database } from '../services/firebase';
 
 export function Home() {
   const history = useHistory();
   const { user, signInWithGoogle } = useAuth();
+  const { theme, toogleTheme } = useTheme();
   const [roomCode, setRoomCode] = useState('');
 
   async function handleCreateRoom() {
@@ -42,7 +44,7 @@ export function Home() {
   }
 
   return (
-    <div id="page-auth">
+    <div id="page-auth" className={theme}>
       <aside>
         <img src={illustrationImg} alt="Ilustração de perguntas e respostas" />
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
@@ -50,6 +52,9 @@ export function Home() {
       </aside>
       <main>
         <div className="main-content">
+          <h1>{theme}</h1>
+          <button onClick={toogleTheme}>Toogle</button>
+
           <img src={logoImg} alt="Letmeask" />
           <button onClick={handleCreateRoom} className="create-room">
             <img src={googleIconImg} alt="Logo do Google" />
